@@ -97,9 +97,6 @@ const App: React.FC = () => {
         setLatestLottery(
           infoLength > 3 ? info.slice(infoLength - 3, infoLength) : info
         );
-        console.log(latestLottery);
-        console.log(latestLottery.reverse());
-
         setLotteryData(info);
       }
     }
@@ -135,27 +132,30 @@ const App: React.FC = () => {
         </IonItem>
 
         {latestLottery && latestLottery.length > 0 ? (
-          latestLottery.reverse().map((obj) => (
-            <IonCard className="ion-text-center mhw">
-              <IonCardHeader>
-                <IonIcon icon={pricetagOutline} className="fz" />
-                <div>Ticket Number</div>
-                <IonCardTitle>{obj.ticket}</IonCardTitle>
-              </IonCardHeader>
-              <IonCardContent>
-                <IonGrid>
-                  <IonRow>
-                    <IonCol>
-                      <IonText>Date: {obj.date}</IonText>
-                    </IonCol>
-                    <IonCol>
-                      <IonText>Time: {obj.time}</IonText>
-                    </IonCol>
-                  </IonRow>
-                </IonGrid>
-              </IonCardContent>
-            </IonCard>
-          ))
+          latestLottery
+            .slice(0)
+            .reverse()
+            .map((obj) => (
+              <IonCard className="ion-text-center mhw">
+                <IonCardHeader>
+                  <IonIcon icon={pricetagOutline} className="fz" />
+                  <div>Ticket Number</div>
+                  <IonCardTitle>{obj.ticket}</IonCardTitle>
+                </IonCardHeader>
+                <IonCardContent>
+                  <IonGrid>
+                    <IonRow>
+                      <IonCol>
+                        <IonText>Date: {obj.date}</IonText>
+                      </IonCol>
+                      <IonCol>
+                        <IonText>Time: {obj.time}</IonText>
+                      </IonCol>
+                    </IonRow>
+                  </IonGrid>
+                </IonCardContent>
+              </IonCard>
+            ))
         ) : (
           <IonText class="ndd">{NO_DATA_MSG}</IonText>
         )}
