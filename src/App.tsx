@@ -39,15 +39,6 @@ import "@ionic/react/css/display.css";
 /* Theme variables */
 import "./theme/variables.css";
 
-const slideConfig = {
-  spaceBetween: 30,
-  shadow: true,
-  centeredSlides: true,
-  slidesPerView: 1.4,
-  initialSlide: 1,
-  speed: 400,
-};
-
 const NO_DATA_MSG = "!! Select A Date To Display Data !!";
 
 interface ILotteryData {
@@ -73,13 +64,13 @@ const App: React.FC = () => {
     )
       .then((res) => res.json())
       .then((data) => parseData(data.feed.entry));
-  });
+  }, []);
 
   // reading all rows of the google sheet and parsing into readable format
   const parseData = (data: Array<any>) => {
     let info: Array<ILotteryData> = [];
     // making sure data is not empty and has 3 data entries per row
-    if (data && data.length % 3 == 0) {
+    if (data && data.length % 3 === 0) {
       for (let index: number = 0; index < data.length; index = index + 3) {
         if (data[index]["gs$cell"]["col"] === "1") {
           let entry: ILotteryData = {
@@ -95,7 +86,7 @@ const App: React.FC = () => {
       let infoLength: number = info.length;
       if (infoLength > 0) {
         setLatestLottery(
-          infoLength > 3 ? info.slice(infoLength - 3, infoLength) : info
+          (infoLength > 3 ? info.slice(infoLength - 3, infoLength) : info).reverse()
         );
         setLotteryData(info);
       }
@@ -107,7 +98,7 @@ const App: React.FC = () => {
 
     //setting datewise lottery data
     const date = new Date(chosenDate).toLocaleDateString();
-    setDatewiseLottery(lotteryData.filter((obj) => obj.date === date));
+    setDatewiseLottery(lotteryData.filter((obj) => obj.date === date).reverse());
   };
 
   return (
@@ -117,7 +108,7 @@ const App: React.FC = () => {
           <IonGrid>
             <IonRow>
               <IonCol>
-                <img src={logo} className="logo" />
+                <img src={logo} className="logo" alt="" />
               </IonCol>
               <IonCol>
                 <IonText className="iTxt">Number Here</IonText>
@@ -133,8 +124,6 @@ const App: React.FC = () => {
 
         {latestLottery && latestLottery.length > 0 ? (
           latestLottery
-            .slice(0)
-            .reverse()
             .map((obj) => (
               <IonCard className="ion-text-center mhw">
                 <IonCardHeader>
