@@ -1,0 +1,7 @@
+{
+  "name": "eagle-react",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
